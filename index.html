@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>div面板切割横向、纵向</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .row {
+            display: flex;
+            height: 100vh;
+        }
+
+        .row .box {
+
+            width: 5px;
+            background: red;
+            cursor: col-resize;
+        }
+
+        .row .lt {
+            width: calc((100% - 5px) / 2);
+            background-color: azure;
+        }
+
+        .row .gt {
+            flex: 1;
+            background-color: #00000033;
+        }
+
+        .row.vertical {
+            flex-direction: column;
+        }
+
+        .row.vertical>* {
+            width: 100%;
+        }
+
+        .row.vertical .box {
+            height: 5px;
+            cursor: row-resize;
+        }
+
+        .row.vertical .lt {
+            height: calc((100% - 5px) / 2);
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="row vertical">  添加class名vertical区分横向、纵向-->
+    <div class="row vertical">
+        <div class="lt"></div>
+        <div class="box"></div>
+        <div class="gt"></div>
+    </div>
+
+
+    <script>
+
+        var box = document.getElementsByClassName("box")[0]; //获取元素
+        var x, y; //鼠标相对与div左边，上边的偏移
+        var isDrop = false; //移动状态的判断鼠标按下才能移动
+        box.onmousedown = function (e) {
+            var e = e || window.event; //要用event这个对象来获取鼠标的位置
+            x = e.clientX - box.offsetLeft;
+            y = e.clientY - box.offsetTop;
+            isDrop = true; //设为true表示可以移动
+        }
+
+        document.onmousemove = function (e) {
+            //是否为可移动状态                　　　　　　　　　　　 　　　　　　　
+            if (isDrop) {
+                var e = e || window.event;
+                var moveX = e.clientX - x; //得到距离左边移动距离                    　　
+                var moveY = e.clientY - y; //得到距离上边移动距离
+                //可移动最大距离
+                var maxX = document.documentElement.clientWidth - box.offsetWidth;
+                var maxY = document.documentElement.clientHeight - box.offsetHeight;
+
+                //范围限定  当移动的距离最小时取最大  移动的距离最大时取最小
+                moveX = Math.min(maxX, Math.max(0, moveX));
+                moveY = Math.min(maxY, Math.max(0, moveY));
+
+                var vertical = document.getElementsByClassName("vertical")[0];//用于区分纵向分割
+                var lt = document.getElementsByClassName("lt")[0]; //获取元素,更改左边div的宽高达到切割div的效果
+
+                if (vertical) {
+                    // moveY为纵向移动的距离（高度）
+                    lt.style.width = '';
+                    lt.style.height = moveY + "px";
+                } else {
+                    // moveX为横向移动的距离
+                    lt.style.width = moveX + "px";
+                    lt.style.height = '';
+                }
+
+            } else {
+                return;
+            }
+
+        }
+
+        document.onmouseup = function () {
+            isDrop = false; //设置为false不可移动
+        }
+
+        var obj1 = { a: 1 };
+
+        var obj2 = {
+            b: 2,
+            formData: {
+                menu_name: "一级菜单",
+                name: "baidu",
+                path: "http://www.baibu.com",
+                icon: 1,
+                is_show: 1,
+                level: "2",
+                file_path: "/view/goods",
+            }
+        };
+
+        var obj3 = { a: 3 };
+
+        console.log(Object.assign(obj1, obj2, obj3))//{ a : 1, b : 2, c:3 }
+
+
+        var aa = { "data": { "menu_name": "一级菜单", "name": "baidu", "path": "http://www.baibu.com", "icon": 1, "is_show": 1, "level": "2", "file_path": "/view/goods" } }
+
+    </script>
+</body>
+
+</html>
