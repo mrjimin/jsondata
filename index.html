@@ -112,28 +112,80 @@
             isDrop = false; //设置为false不可移动
         }
 
-        var obj1 = { a: 1 };
+ </script>
+    <style>
+            .table-responsive {
+            overflow: auto;
+            overflow-x: 60px;
+            /*隐藏滚动条（可以滚动）*/
+            scrollbar-width: none;
+        }
 
-        var obj2 = {
-            b: 2,
-            formData: {
-                menu_name: "一级菜单",
-                name: "baidu",
-                path: "http://www.baibu.com",
-                icon: 1,
-                is_show: 1,
-                level: "2",
-                file_path: "/view/goods",
+        .table-responsive::-webkit-scrollbar {
+            /*Chrome下隐藏滚动条（宽度设为0即可）*/
+            width: 0;
+            height: 0;
+        }
+
+
+        .fhtable {
+            /* width: 2000px; */
+            display: table;
+            background-color: #fafafa;
+            white-space: nowrap;
+        }
+
+        .table-box {
+            padding: 5px 10px;
+            background-color: #fafafa;
+        }
+    </style>
+        <div class="table-box">
+        <div class="table-responsive">
+            <div class="fhtable">
+                <span>tabs标签内容</span>
+                <span>超出横向滚动</span>
+                <span>tabs标签内容</span>
+                <span>超出横向滚动</span>
+                <span>tabs标签内容</span>
+                <span>超出横向滚动</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+                <span>tabs标签内容</span>
+            </div>
+        </div>
+    </div>
+    
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+            $(".fhtable")[0].onwheel = function (event) {
+            var table = $(this).parents(".table-responsive");
+            var right = $(this).width() - table[0].offsetWidth;
+            if (right > 0) {
+                // 内容过多
+                event.preventDefault();//禁止事件默认行为（此处禁止鼠标滚轮行为关联到"屏幕滚动条上下移动"行为）  
+                // event.deltaY > 0 滚动方向,大于0向下滚动,小于0向上滚动
+
+                if (table.scrollLeft() < right && event.deltaY > 0) {
+                    var left = (table.scrollLeft() + 50);
+                    table.scrollLeft(left)
+                }
+                if (table.scrollLeft() > 0 && event.deltaY < 0) {
+
+                    var left = (table.scrollLeft() - 50);
+                    table.scrollLeft(left)
+                }
+
             }
-        };
 
-        var obj3 = { a: 3 };
-
-        console.log(Object.assign(obj1, obj2, obj3))//{ a : 1, b : 2, c:3 }
-
-
-        var aa = { "data": { "menu_name": "一级菜单", "name": "baidu", "path": "http://www.baibu.com", "icon": 1, "is_show": 1, "level": "2", "file_path": "/view/goods" } }
-
+        }
     </script>
 </body>
 
